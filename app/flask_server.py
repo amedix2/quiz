@@ -1,9 +1,12 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template
+
+
+__all__ = ['app']
 
 app = Flask(__name__)
 
 
-@app.route("/", methods=['GET'])
+@app.route('/', methods=['GET'])
 def main():
     return render_template('main.html')
 
@@ -13,10 +16,10 @@ def questions(num):
     return render_template('question.html', num=num)
 
 
-@app.route("/results")
+@app.route('/results')
 def results():
     return render_template('results.html')
 
 
-if __name__ == "__main__":
-    app.run(debug=True, host="127.0.0.1", port=80)
+if __name__ == '__main__':
+    app.run(debug=True, host='127.0.0.1', port=80)
