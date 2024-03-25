@@ -2,6 +2,7 @@ import asyncio
 import logging
 import os
 import sys
+import json
 from dotenv import load_dotenv
 
 from aiogram import Bot, Dispatcher, types, F
@@ -21,9 +22,17 @@ __all__ = ['main']
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
     logging.info(f'started by {message.chat.id}')
+    id = ("id" + str(message.chat.id))
+    data = json.load(open('data/players.json', 'r'))
+    if id not in data.keys():
+        data[id] = {'nickname': message.chat.username, 'score': 0}
+    logging.error(data)
+    player_name = data[id]['nickname']
+    open('data/players.json', 'w').write(json.dumps(data))
+
     await message.answer(f'Привет, {hbold(message.from_user.full_name)}!\n'
-                         f'Ты был зарегестрирован в системе под именем'
-                         f' {hbold(message.from_user.username)}')
+                         f'Ты зарегестрирован в системе под именем'
+                         f' {hbold(player_name)}')
     await message.answer(f'Для смены имени используй команду\n/set новое_имя')
 
 
@@ -31,8 +40,13 @@ async def command_start_handler(message: Message) -> None:
 async def command_set_handler(message: Message) -> None:
     logging.info(f'set name by {message.chat.id}')
     name = message.text[5:].strip()
+    id = ("id" + str(message.chat.id))
+    data = json.load(open('data/players.json', 'r'))
+    data[id]['nickname'] = name
+    player_name = data[id]['nickname']
+    open('data/players.json', 'w').write(json.dumps(data))
     if name:
-        await message.answer(f'Ты изменил имя на {hbold(name)}')
+        await message.answer(f'Ты изменил имя на {hbold(player_name)}')
     else:
         await message.answer(f'Нельзя использовать пустое имя!')
 
@@ -50,6 +64,7 @@ async def answers_handler(message: types.Message) -> None:
     logging.info(f'answer by {message.chat.id}')
     try:
         if message.text.lower() in ('a', 'b', 'c', 'd'):
+            # players = json.load(open('data/players.json'))
             await message.answer(f'Ответ {hbold(message.text)} был принят!')
         else:
             await message.answer(f'Такого варианта ответа нет((\n'

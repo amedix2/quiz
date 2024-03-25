@@ -6,11 +6,13 @@
     "right_answer_id": 0,
     "players_answers": {
       "id2286969": {
+        "given": true,
         "value": "a",
         "quesion_score": 932
       },
       "id14881337":{
-        "value": "b",
+        "given": false,
+        "value": "smth",
         "quesion_score": 0
       }
     }
