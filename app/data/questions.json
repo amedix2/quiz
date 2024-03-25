@@ -3,6 +3,16 @@
     "question": "Столица греции",
     "answers": ["Афины", "Стамбул", "Салоники", "Ираклион"],
     "right_answer": "Афины",
-    "right_answer_id": 0
+    "right_answer_id": 0,
+    "players_answers": {
+      "amedix": {
+        "given": true,
+        "score": 932
+      },
+      "fazkek":{
+        "given": false,
+        "score": 0
+      }
+    }
   }
 }
