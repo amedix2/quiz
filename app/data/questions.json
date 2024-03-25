@@ -3,18 +3,7 @@
     "question": "Столица греции",
     "answers": ["Афины", "Стамбул", "Салоники", "Ираклион"],
     "right_answer": "Афины",
-    "right_answer_id": 0,
-    "players_answers": {
-      "id2286969": {
-        "given": true,
-        "value": "a",
-        "quesion_score": 932
-      },
-      "id14881337":{
-        "given": false,
-        "value": "smth",
-        "quesion_score": 0
-      }
-    }
-  }
+    "right_answer_id": "a"
+  },
+  "current": "1"
 }

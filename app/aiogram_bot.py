@@ -63,13 +63,20 @@ async def command_set_handler(message: Message) -> None:
 async def answers_handler(message: types.Message) -> None:
     logging.info(f'answer by {message.chat.id}')
     try:
-        if message.text.lower() in ('a', 'b', 'c', 'd'):
-            # players = json.load(open('data/players.json'))
+        answer = message.text.lower()
+        if answer in ('a', 'b', 'c', 'd'):
+            id = ("id" + str(message.chat.id))
+            questions_info = json.load(open('data/questions.json', 'r'))
+            data = json.load(open('data/players.json', 'r'))
+            if questions_info[questions_info['current']]['right_answer_id'] == answer:
+                data[id]['score'] += 1000
+            open('data/players.json', 'w').write(json.dumps(data))
             await message.answer(f'Ответ {hbold(message.text)} был принят!')
+            logging.error('AAAAAAAAAAAAAAAA')
         else:
             await message.answer(f'Такого варианта ответа нет((\n'
                                  f'Выбери что то другое из предложенного')
-    except Exception:
+    except TypeError or AttributeError:
         await message.answer('Зевс тобой не доволен!!!')
 
 
