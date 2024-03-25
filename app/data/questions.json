@@ -5,13 +5,13 @@
     "right_answer": "Афины",
     "right_answer_id": 0,
     "players_answers": {
-      "amedix": {
-        "given": true,
-        "score": 932
+      "2286969": {
+        "value": "a",
+        "quesion_score": 932
       },
-      "fazkek":{
-        "given": false,
-        "score": 0
+      "14881337":{
+        "value": "b",
+        "quesion_score": 0
       }
     }
   }
