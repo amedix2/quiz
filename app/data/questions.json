@@ -5,11 +5,11 @@
     "right_answer": "Афины",
     "right_answer_id": 0,
     "players_answers": {
-      "2286969": {
+      "id2286969": {
         "value": "a",
         "quesion_score": 932
       },
-      "14881337":{
+      "id14881337":{
         "value": "b",
         "quesion_score": 0
       }
