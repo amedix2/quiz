@@ -1,26 +1,58 @@
-import os
-from dotenv import load_dotenv
+import asyncio
 import logging
-from aiogram import Bot, types
-from aiogram.dispatcher import Dispatcher
-from aiogram.utils import executor
+import os
+import sys
+from dotenv import load_dotenv
 
-__all__ = ['main_bot']
+from aiogram import Bot, Dispatcher, types, F
+from aiogram.enums import ParseMode
+from aiogram.filters import CommandStart, Command
+from aiogram.types import Message
+from aiogram.utils.markdown import hbold
 
 load_dotenv()
-AIOGRAM_TOKEN = os.getenv('AIOGRAM_TOKEN')
+TOKEN = os.getenv('AIOGRAM_TOKEN')
 
-bot = Bot(token=AIOGRAM_TOKEN)
-dp = Dispatcher(bot)
+dp = Dispatcher()
 
 
 @dp.message(CommandStart())
-async def process_start_command(message: types.Message):
-    logging.info(f'process_start_command: {message.chat.id}')
-    await bot.send_message(message.chat.id, f'Ты зарегестрировался в системе под именем {message.chat.username}')
-    await bot.send_message(message.chat.id, f'Для того чтобы изменить имя используй команду /set новое_имя')
+async def command_start_handler(message: Message) -> None:
+    logging.info(f'started by {message.chat.id}')
+    await message.answer(f'Привет, {hbold(message.from_user.full_name)}!\n'
+                         f'Ты был зарегестрирован в системе под именем'
+                         f' {hbold(message.from_user.username)}')
+    await message.answer(f'Для смены имени используй команду\n/set новое_имя')
 
 
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
-    executor.start_polling(dp)
+@dp.message(F.text, Command('set'))
+async def command_set_handler(message: Message) -> None:
+    logging.info(f'set name by {message.chat.id}')
+    name = message.text[5:].strip()
+    if name:
+        await message.answer(f'Ты изменил имя на {hbold(name)}')
+    else:
+        await message.answer(f'Нельзя использовать пустое имя!')
+
+
+@dp.message()
+async def answers_handler(message: types.Message) -> None:
+    logging.info(f'answer by {message.chat.id}')
+    try:
+        if message.text.lower() in ('a', 'b', 'c', 'd'):
+            await message.answer(f'Ответ {hbold(message.text)} был принят!')
+        else:
+            await message.answer(f'Такого варианта ответа нет((\n'
+                                 f'Выбери что то другое из предложенного')
+    except Exception:
+        await message.answer('Зевс тобой не доволен!!!')
+
+
+async def main() -> None:
+    bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
+    await dp.start_polling(bot)
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+    asyncio.run(main())
