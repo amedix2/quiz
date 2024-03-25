@@ -15,6 +15,8 @@ TOKEN = os.getenv('AIOGRAM_TOKEN')
 
 dp = Dispatcher()
 
+__all__ = ['main']
+
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
@@ -33,6 +35,14 @@ async def command_set_handler(message: Message) -> None:
         await message.answer(f'Ты изменил имя на {hbold(name)}')
     else:
         await message.answer(f'Нельзя использовать пустое имя!')
+
+
+@dp.message(F.text, Command('help'))
+async def command_set_handler(message: Message) -> None:
+    logging.info(f'help by {message.chat.id}')
+    await message.answer('Пиши ответы (a, b, c или d) на вопрос, который видишь на экране\n\n'
+                         'Используй /set имя для смены имени(пожалуйста не'
+                         ' используйте это во время вопроса я не знаю что произойдет-_-)')
 
 
 @dp.message()
