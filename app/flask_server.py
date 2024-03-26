@@ -5,7 +5,6 @@ from flask import Flask, render_template
 
 __all__ = ['app']
 
-
 app = Flask(__name__)
 
 
@@ -27,10 +26,14 @@ def questions(num):
         raise ValueError
 
 
-
 @app.route('/results')
 def results():
     data = json.load(open('static/data/players.json', 'r', encoding='utf-8'))
+    zero_data = data
+    logging.info(data)
+    for player in zero_data.keys():
+        zero_data[player]['given'] = False
+    open('static/data/players.json', 'w', encoding='utf-8').write(json.dumps(zero_data))
     return render_template('results.html', data=data)
 
 

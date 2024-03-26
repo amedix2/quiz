@@ -80,7 +80,7 @@ async def answers_handler(message: types.Message) -> None:
                 open('static/data/players.json', 'w', encoding='utf-8').write(json.dumps(data))
                 await message.answer(f'Ответ {hbold(message.text)} был принят!')
             else:
-                await message.answer(f'ну нинада спамить(((')
+                await message.answer(f'Зевс и с первого раза всё понял.')
         else:
             await message.answer(f'Такого варианта ответа нет((\n'
                                  f'Выбери что то другое из предложенного')
