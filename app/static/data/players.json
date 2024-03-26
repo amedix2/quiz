@@ -1,12 +1,1 @@
-{
-  "id5957424821": {
-    "nickname": "admin_test",
-    "score": 0,
-    "given": false
-  },
-  "id691089066": {
-    "nickname": "admin",
-    "score": 0,
-    "given": false
-  }
-}
+{"id691089066": {"nickname": "admin", "score": 0, "given": false}}
