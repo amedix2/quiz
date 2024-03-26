@@ -49,7 +49,16 @@ def results():
     open('static/data/players.json', 'w', encoding='utf-8').write(
         json.dumps(zero_data),
     )
-    return render_template('results.html', data=data)
+    # new num question
+    num_data = json.load(
+        open('static/data/questions.json.', 'r', encoding='utf-8'),
+    )
+    num_data['current'] = str(int(num_data['current']) + 1)
+    next_num = num_data['current']
+    open('static/data/questions.json', 'w', encoding='utf-8').write(
+        json.dumps(num_data),
+    )
+    return render_template('results.html', data=data, num=next_num)
 
 
 if __name__ == '__main__':
