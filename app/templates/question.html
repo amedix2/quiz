@@ -2,9 +2,20 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/main.css') }}">
     <title>Title</title>
 </head>
 <body>
-question {% if num %}<h2>{{ num }}</h2>{% endif %}
+    <div class="question">
+        <h1></h1>
+        <img src="" alt="">
+        <div class="answers">
+
+        </div>
+    </div>
+    <script>
+        const Data = JSON.parse('{{ data }}');
+        console.log(Data)
+    </script>
 </body>
 </html>

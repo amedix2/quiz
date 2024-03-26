@@ -2,9 +2,33 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/main.css') }}">
     <title>Title</title>
 </head>
 <body>
-main page
+    <div class="users">
+        <h1>Участники</h1>
+        <ul class="players-list"></ul>
+        <a href="/question/1" class="start" id="start">Начать!</a>
+    </div>
+<script>
+    const start = document.getElementById('start')
+    
+
+    fetch("{{ url_for('static', filename='data/players.json') }}")
+    .then(response => response.json())
+    .then(data => {
+        const playersList = document.querySelector(".players-list");
+        
+        for (const playerId in data) {
+            const player = data[playerId];
+            
+            const listItem = document.createElement("li");
+            listItem.textContent = player.nickname;
+            
+            playersList.appendChild(listItem);
+        }
+    });
+</script>
 </body>
 </html>
