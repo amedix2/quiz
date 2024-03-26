@@ -14,21 +14,48 @@
 <script>
     const start = document.getElementById('start')
     
-
-    fetch("{{ url_for('static', filename='data/players.json') }}")
-    .then(response => response.json())
-    .then(data => {
-        const playersList = document.querySelector(".players-list");
+    //     fetch("{{ url_for('static', filename='data/players.json') }}")
+    // .then(response => response.json())
+    // .then(data => {
+    //     const playersList = document.querySelector(".players-list");
         
-        for (const playerId in data) {
-            const player = data[playerId];
+    //     for (const playerId in data) {
+    //         const player = data[playerId];
             
-            const listItem = document.createElement("li");
-            listItem.textContent = player.nickname;
+    //         const listItem = document.createElement("li");
+    //         listItem.textContent = player.nickname;
             
-            playersList.appendChild(listItem);
-        }
-    });
+    //         playersList.appendChild(listItem);
+    //     }
+    // });
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    const playersList = document.querySelector(".players-list");
+    const addedPlayerIds = new Set();
+
+$(document).ready(function(){
+    setInterval(function(){
+        $.get('/update_data', function(data){
+            for (const playerId in data) {
+                const player = data[playerId];
+                if (!addedPlayerIds.has(playerId)) {
+                    const listItem = document.createElement("li");
+                    listItem.textContent = player.nickname;
+
+                    playersList.appendChild(listItem);
+
+                    addedPlayerIds.add(playerId);
+                }
+            // for (const listItem in playersList) {
+            //     listItem.textContent = 
+            // }   
+            }
+        });
+    }, 1000); 
+});
+    </script>
+
+
 </body>
 </html>

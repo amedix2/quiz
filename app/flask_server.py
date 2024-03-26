@@ -58,7 +58,7 @@ def results():
     open('static/data/questions.json', 'w', encoding='utf-8').write(
         json.dumps(num_data),
     )
-    return render_template('results.html', data=data, num=next_num)
+    return render_template('results.html', data=json.dumps(data), num=next_num)
 
 
 if __name__ == '__main__':

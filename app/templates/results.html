@@ -2,9 +2,27 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/main.css') }}">
+    <title>Результаты</title>
 </head>
 <body>
-results
+    <div class="results">
+        <h1>Количество очков</h1>
+        <div class="leader-board">
+            <ul class="leader-list">
+                <li>
+                    <p>имя</p>
+                    <p>счет</p>
+                </li>
+            </ul>
+        </div>
+        <a href="/question/{{ num }}" class="next-question">Следующий вопрос</a>
+    </div>
+    {% if data %}
+        <script>
+            const Data = JSON.parse({{data | tojson}});
+            console.log(Data)
+        </script>
+    {% endif %}
 </body>
 </html>

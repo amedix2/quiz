@@ -3,20 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static', filename= 'css/main.css') }}">
-    <title>Title</title>
+    <title>Вопрос номер {{ num }}</title>
 </head>
 <body>
     <div class="question">
-        <h1></h1>
-        <img src="" alt="">
+        <h1 id="question"></h1>
         <div class="answers">
-            
+            <p id="first-answer">a:</p>
+            <p id="second-answer">b:</p>
+            <p id="third-answer">c:</p>
+            <p id="fourth-answer">d:</p>
         </div>
+        <span id="timer"></span>
     </div>
     {% if data %}
         <script>
             const Data = JSON.parse({{data | tojson}});
             console.log(Data)
+            const question = document.getElementById('question')
+            question.textContent = Data.question + '?'
+            const answers = document.querySelectorAll('p')
+            for (let i = 0; i < answers.length; i++){
+                answers[i].textContent = answers[i].textContent + Data.answers[i]
+            }
+
+            const startTime = Date.now();
+            const endTime = startTime + 10000;
+
+            const timer = document.getElementById('timer');
+
+            function updateTimer() {
+                const remainingTime = endTime - Date.now();
+                const seconds = Math.floor((remainingTime / 1000) % 60);
+                timer.textContent = `${seconds.toString().padStart(2, '0')}`;
+                if (remainingTime <= 0) {
+                    clearInterval(interval);
+                    window.location.href = '/results'                    
+                }
+            }
+
+            const interval = setInterval(updateTimer, 1000);
+            timer.textContent = '30';
         </script>
     {% endif %}
 </body>
