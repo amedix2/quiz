@@ -96,6 +96,13 @@ async def answers_handler(message: types.Message) -> None:
             questions_info['current'] = '1'
             open('static/data/questions.json', 'w', encoding='utf-8').write(json.dumps(questions_info))
             await message.answer('Done')
+        if message.text == '/zero_question':
+            questions_info = json.load(
+                open('static/data/questions.json', 'r', encoding='utf-8'),
+            )
+            questions_info['current'] = '1'
+            open('static/data/questions.json', 'w', encoding='utf-8').write(json.dumps(questions_info))
+            await message.answer('Done')
     else:
         try:
             questions_info = json.load(
