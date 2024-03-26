@@ -26,7 +26,10 @@ async def command_start_handler(message: Message) -> None:
     id = ("id" + str(message.chat.id))
     data = json.load(open('static/data/players.json', 'r', encoding='utf-8'))
     if id not in data.keys():
-        data[id] = {'nickname': message.chat.username, 'score': 0}
+        if str(message.chat.username) != 'None' and str(message.chat.username) != '':
+            data[id] = {'nickname': message.chat.username, 'score': 0, 'given': False}
+        else:
+            data[id] = {'nickname': id, 'score': 0, 'given': False}
     logging.error(data)
     player_name = data[id]['nickname']
     open('static/data/players.json', 'w', encoding='utf-8').write(json.dumps(data))
@@ -41,6 +44,7 @@ async def command_start_handler(message: Message) -> None:
 async def command_set_handler(message: Message) -> None:
     logging.info(f'set name by {message.chat.id}')
     name = message.text[5:].strip()
+    logging.error(f'{message.chat.id}: {message.text}')
     id = ("id" + str(message.chat.id))
     data = json.load(open('static/data/players.json', 'r', encoding='utf-8'))
     data[id]['nickname'] = name
@@ -62,7 +66,7 @@ async def command_set_handler(message: Message) -> None:
 
 @dp.message()
 async def answers_handler(message: types.Message) -> None:
-    logging.info(f'answer by {message.chat.id}')
+    logging.error(f'{message.chat.id}: {message.text}')
     try:
         answer = message.text.lower()
         if answer in ('a', 'b', 'c', 'd'):
