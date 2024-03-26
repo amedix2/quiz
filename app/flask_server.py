@@ -1,16 +1,24 @@
 import json
 import logging
 import sys
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 
 __all__ = ['app']
 
 app = Flask(__name__)
 
+app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
+
+@app.route('/')
 def main():
     return render_template('main.html')
+
+
+@app.route('/update_data', methods=['GET'])
+def update_data():
+    data = json.load(open('static/data/players.json', 'r', encoding='utf-8'))
+    return jsonify(data)
 
 
 @app.route('/question/<int:num>')
