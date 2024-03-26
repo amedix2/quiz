@@ -73,10 +73,14 @@ async def answers_handler(message: types.Message) -> None:
             id = ("id" + str(message.chat.id))
             questions_info = json.load(open('static/data/questions.json', 'r', encoding='utf-8'))
             data = json.load(open('static/data/players.json', 'r', encoding='utf-8'))
-            if questions_info[questions_info['current']]['right_answer_id'] == answer:
-                data[id]['score'] += 1000
-            open('static/data/players.json', 'w', encoding='utf-8').write(json.dumps(data))
-            await message.answer(f'Ответ {hbold(message.text)} был принят!')
+            if not data[id]['given']:
+                data[id]['given'] = True
+                if questions_info[questions_info['current']]['right_answer_id'] == answer:
+                    data[id]['score'] += 1000
+                open('static/data/players.json', 'w', encoding='utf-8').write(json.dumps(data))
+                await message.answer(f'Ответ {hbold(message.text)} был принят!')
+            else:
+                await message.answer(f'ну нинада спамить(((')
         else:
             await message.answer(f'Такого варианта ответа нет((\n'
                                  f'Выбери что то другое из предложенного')
