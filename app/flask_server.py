@@ -31,7 +31,9 @@ def questions(num):
             json.dumps(data),
         )
         return render_template(
-            'question.html', num=num, data=json.dumps(question_data),
+            'question.html',
+            num=num,
+            data=json.dumps(question_data),
         )
     except Exception:
         raise ValueError

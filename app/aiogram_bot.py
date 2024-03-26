@@ -49,8 +49,9 @@ async def command_start_handler(message: Message) -> None:
         f'Ты зарегестрирован в системе под именем'
         f' {hbold(player_name)}',
     )
-    await message.answer('Для смены имени используй команду\n'
-                         '/set новое_имя')
+    await message.answer(
+        'Для смены имени используй команду\n/set новое_имя',
+    )
 
 
 @dp.message(F.text, Command('set'))
