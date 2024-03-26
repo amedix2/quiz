@@ -20,6 +20,8 @@ dp = Dispatcher()
 
 __all__ = ['main']
 
+ADMINS = [691089066, 1002111611]
+
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
@@ -85,7 +87,7 @@ async def command_help_handler(message: Message) -> None:
 @dp.message()
 async def answers_handler(message: types.Message) -> None:
     logging.error(f'{message.chat.id}: {message.text}')
-    if message.chat.id == 691089066:
+    if message.chat.id in ADMINS:
         if message.text == '/zero':
             open('static/data/players.json', 'w', encoding='utf-8').write(json.dumps({}))
             questions_info = json.load(
