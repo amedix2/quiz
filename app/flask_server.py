@@ -1,7 +1,8 @@
 import json
 import logging
 import sys
-from flask import Flask, render_template, jsonify
+
+from flask import Flask, jsonify, render_template
 
 __all__ = ['app']
 
@@ -26,8 +27,12 @@ def questions(num):
     try:
         question_data = data[str(num)]
         data['current'] = str(num)
-        open('static/data/questions.json', 'w', encoding='utf-8').write(json.dumps(data))
-        return render_template('question.html', num=num, data=json.dumps(question_data))
+        open('static/data/questions.json', 'w', encoding='utf-8').write(
+            json.dumps(data),
+        )
+        return render_template(
+            'question.html', num=num, data=json.dumps(question_data),
+        )
     except Exception:
         raise ValueError
 
@@ -39,7 +44,9 @@ def results():
     logging.info(data)
     for player in zero_data.keys():
         zero_data[player]['given'] = False
-    open('static/data/players.json', 'w', encoding='utf-8').write(json.dumps(zero_data))
+    open('static/data/players.json', 'w', encoding='utf-8').write(
+        json.dumps(zero_data),
+    )
     return render_template('results.html', data=data)
 
 
