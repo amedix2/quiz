@@ -7,8 +7,6 @@ __all__ = ['app']
 
 app = Flask(__name__)
 
-app = Flask(__name__)
-
 
 @app.route('/')
 def main():
