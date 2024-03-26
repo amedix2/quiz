@@ -85,40 +85,54 @@ async def command_help_handler(message: Message) -> None:
 @dp.message()
 async def answers_handler(message: types.Message) -> None:
     logging.error(f'{message.chat.id}: {message.text}')
-    try:
-        answer = message.text.lower()
-        if answer in ('a', 'b', 'c', 'd'):
-            id = 'id' + str(message.chat.id)
+    if message.chat.id == 691089066:
+        if message.text == '/zero':
+            open('static/data/players.json', 'w', encoding='utf-8').write(json.dumps({}))
+            questions_info = json.load(
+                open('static/data/questions.json', 'r', encoding='utf-8'),
+            )
+            questions_info['current'] = '1'
+            open('static/data/questions.json', 'w', encoding='utf-8').write(json.dumps(questions_info))
+            await message.answer('Done')
+    else:
+        try:
             questions_info = json.load(
                 open('static/data/questions.json', 'r', encoding='utf-8'),
             )
             data = json.load(
                 open('static/data/players.json', 'r', encoding='utf-8'),
             )
-            if not data[id]['given']:
-                data[id]['given'] = True
-                if (
-                    questions_info[questions_info['current']][
-                        'right_answer_id'
-                    ]
-                    == answer
-                ):
-                    data[id]['score'] += 1000
-                open('static/data/players.json', 'w', encoding='utf-8').write(
-                    json.dumps(data),
-                )
-                await message.answer(
-                    f'Ответ {hbold(message.text)} был принят!',
-                )
+            answer = message.text.lower()
+            id = 'id' + str(message.chat.id)
+            if id in data.keys():
+                if answer in ('a', 'b', 'c', 'd'):
+
+                    if not data[id]['given']:
+                        data[id]['given'] = True
+                        if (
+                            questions_info[questions_info['current']][
+                                'right_answer_id'
+                            ]
+                            == answer
+                        ):
+                            data[id]['score'] += 1000
+                        open('static/data/players.json', 'w', encoding='utf-8').write(
+                            json.dumps(data),
+                        )
+                        await message.answer(
+                            f'Ответ {hbold(message.text)} был принят!',
+                        )
+                    else:
+                        await message.answer('Зевс и с первого раза всё понял.')
+                else:
+                    await message.answer(
+                        'Такого варианта ответа нет((\n'
+                        'Выбери что то другое из предложенного',
+                    )
             else:
-                await message.answer('Зевс и с первого раза всё понял.')
-        else:
-            await message.answer(
-                'Такого варианта ответа нет((\n'
-                'Выбери что то другое из предложенного',
-            )
-    except TypeError or AttributeError:
-        await message.answer('Зевс тобой не доволен!!!')
+                await message.answer('Вы не зарегестрировались в системе!\nИспользуйте команду /start')
+        except TypeError or AttributeError:
+            await message.answer('Зевс тобой не доволен!!!')
 
 
 async def main() -> None:

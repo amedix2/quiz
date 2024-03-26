@@ -51,7 +51,7 @@ def results():
     )
     # new num question
     num_data = json.load(
-        open('static/data/questions.json.', 'r', encoding='utf-8'),
+        open('static/data/questions.json', 'r', encoding='utf-8'),
     )
     num_data['current'] = str(int(num_data['current']) + 1)
     next_num = num_data['current']
