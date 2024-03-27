@@ -9,10 +9,10 @@
     <div class="question">
         <h1 id="question"></h1>
         <div class="answers">
-            <p id="first-answer">a:</p>
-            <p id="second-answer">b:</p>
-            <p id="third-answer">c:</p>
-            <p id="fourth-answer">d:</p>
+            <p class="answer">a:</p>
+            <p class="answer">b:</p>
+            <p class="answer">c:</p>
+            <p class="answer">d:</p>
         </div>
         <span id="timer"></span>
     </div>
@@ -26,9 +26,9 @@
             for (let i = 0; i < answers.length; i++){
                 answers[i].textContent = answers[i].textContent + Data.answers[i]
             }
-
+            console.log(answers)
             const startTime = Date.now();
-            const endTime = startTime + 20000;
+            const endTime = startTime + 25000;
 
             const timer = document.getElementById('timer');
 
@@ -38,12 +38,21 @@
                 timer.textContent = `${seconds.toString().padStart(2, '0')}`;
                 if (remainingTime <= 0) {
                     clearInterval(interval);
-                                        
+                    for (let i = 0; i < answers.length; i++) {
+                        const answer = answers[i];
+                        if (answer.outerText.includes(Data.right_answer)){
+                            answer.classList.add('rigth-answer');
+                            setTimeout(() => {
+                            answer.classList.remove('rigth-answer');
+                            ///window.location.href = '/results'
+                            }, 5000);                        
+                        }
+                    }    
                 }
             }
 
             const interval = setInterval(updateTimer, 1000);
-            timer.textContent = '20';
+            timer.textContent = '25';
         </script>
     {% endif %}
 </body>
