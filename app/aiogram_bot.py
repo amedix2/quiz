@@ -34,7 +34,7 @@ async def command_start_handler(message: Message) -> None:
             and str(message.chat.username) != ''
         ):
             data[id] = {
-                'nickname': message.chat.username,
+                'nickname': message.chat.username[:15],
                 'score': 0,
                 'given': False,
             }
@@ -59,7 +59,7 @@ async def command_start_handler(message: Message) -> None:
 @dp.message(F.text, Command('set'))
 async def command_set_handler(message: Message) -> None:
     logging.info(f'set name by {message.chat.id}')
-    name = message.text[5:].strip()
+    name = message.text[5:20].strip()
     logging.error(f'{message.chat.id}: {message.text}')
     id = 'id' + str(message.chat.id)
     data = json.load(open('static/data/players.json', 'r', encoding='utf-8'))
