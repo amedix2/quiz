@@ -36,7 +36,7 @@ async def command_start_handler(message: Message) -> None:
             data[id] = {
                 'nickname': message.chat.username[:15],
                 'score': 0,
-                'given': False,
+                'given': True,
             }
         else:
             data[id] = {'nickname': id, 'score': 0, 'given': False}

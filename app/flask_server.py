@@ -33,6 +33,13 @@ def update_data():
 @app.route('/question/<int:num>')
 def questions(num):
     data = json.load(open('static/data/players.json', 'r', encoding='utf-8'))
+    zero_data = data
+    logging.info(data)
+    for player in zero_data.keys():
+        zero_data[player]['given'] = False
+    open('static/data/players.json', 'w', encoding='utf-8').write(
+        json.dumps(zero_data),
+    )
     questions = json.load(open('static/data/questions.json', 'r', encoding='utf-8'))
     try:
         question_data = questions[str(num)]
@@ -65,7 +72,7 @@ def results():
     zero_data = data
     logging.info(data)
     for player in zero_data.keys():
-        zero_data[player]['given'] = False
+        zero_data[player]['given'] = True
     open('static/data/players.json', 'w', encoding='utf-8').write(
         json.dumps(zero_data),
     )
@@ -84,4 +91,4 @@ def results():
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
-    app.run(debug=False, host='127.0.0.1', port=80)
+    app.run(debug=False, host='0.0.0.0', port=8000)
