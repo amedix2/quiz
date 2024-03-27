@@ -130,7 +130,7 @@ async def answers_handler(message: types.Message) -> None:
                             ]
                             == answer
                         ):
-                            data[id]['score'] += 1000
+                            data[id]['score'] += 1
                         open(
                             'static/data/players.json',
                             'w',

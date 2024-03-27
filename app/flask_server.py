@@ -78,6 +78,7 @@ def results():
     open('static/data/questions.json', 'w', encoding='utf-8').write(
         json.dumps(num_data),
     )
+    data = dict(sorted(data.items(), key=lambda x: x[1]["score"]))
     return render_template('results.html', data=json.dumps(data), num=next_num)
 
 
