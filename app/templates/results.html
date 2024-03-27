@@ -18,21 +18,30 @@
     {% if data %}
         <script>
             const Data = JSON.parse({{data | tojson}});
-            const leaders = document.querySelector('.leader-list')
-            console.log(Data)
-            for (const item in Data) {
-                const value = Data[item];
-                console.log(value);
-                const player = document.createElement("li")
-                const playerName = document.createElement("p")
-                const playerScore = document.createElement("p")
+            const leaders = document.querySelector('.leader-list');
 
-                playerName.textContent = value.nickname
-                playerScore.textContent = value.score
+            // Преобразуем объект в массив
+            const players = Object.entries(Data).map(([id, info]) => ({
+                id,
+                nickname: info.nickname,
+                score: info.score,
+            }));
 
-                player.appendChild(playerName)
-                player.appendChild(playerScore)
-                leaders.appendChild(player)
+            // Сортируем массив по очкам
+            players.sort((a, b) => b.score - a.score);
+
+            // Выводим отсортированный список
+            for (const player of players) {
+                const playerItem = document.createElement("li");
+                const playerName = document.createElement("p");
+                const playerScore = document.createElement("p");
+
+                playerName.textContent = player.nickname;
+                playerScore.textContent = player.score;
+
+                playerItem.appendChild(playerName);
+                playerItem.appendChild(playerScore);
+                leaders.appendChild(playerItem);
             }
         </script>
     {% endif %}
