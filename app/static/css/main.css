@@ -19,8 +19,29 @@ body {
     text-align: center;
 }
 
+.players-list {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.players-list li {
+    background-color: #988fff;
+    border-radius: 10px;
+    margin-block: 15px;
+    margin-inline: 30px;
+    font-size: 36px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 h1 {
-    font-size: 50px;
+    font-size: 60px;
 }
 
 ul {
@@ -59,7 +80,7 @@ ul {
 }
 
 .answers p {
-    font-size: 30px;
+    font-size: 36px;
     font-weight: 600;
 }
 
@@ -70,11 +91,12 @@ ul {
     padding: 30px;
     border-radius: 50%;
     background-color: rgb(182, 195, 206);
-    bottom: -30%;
+    bottom: -10%;
 }
 
 .results {
     width: 70%;
+    min-height: 70%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -92,10 +114,12 @@ ul {
 
 li p {
     margin: 0;
+    margin-top: 10px;
+    font-size: 32px;
 }
 
 .next-question {
-    font-size: 24px;
+    font-size: 32px;
     padding-inline: 30px;
     padding-block: 15px;
     border-radius: 10px;

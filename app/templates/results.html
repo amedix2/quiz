@@ -10,10 +10,7 @@
         <h1>Количество очков</h1>
         <div class="leader-board">
             <ul class="leader-list">
-                <li>
-                    <p>имя</p>
-                    <p>счет</p>
-                </li>
+                
             </ul>
         </div>
         <a href="/question/{{ num }}" class="next-question">Следующий вопрос</a>
@@ -21,7 +18,22 @@
     {% if data %}
         <script>
             const Data = JSON.parse({{data | tojson}});
+            const leaders = document.querySelector('.leader-list')
             console.log(Data)
+            for (const item in Data) {
+                const value = Data[item];
+                console.log(value);
+                const player = document.createElement("li")
+                const playerName = document.createElement("p")
+                const playerScore = document.createElement("p")
+
+                playerName.textContent = value.nickname
+                playerScore.textContent = value.score
+
+                player.appendChild(playerName)
+                player.appendChild(playerScore)
+                leaders.appendChild(player)
+            }
         </script>
     {% endif %}
 </body>

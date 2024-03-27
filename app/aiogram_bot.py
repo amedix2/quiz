@@ -89,19 +89,25 @@ async def answers_handler(message: types.Message) -> None:
     logging.error(f'{message.chat.id}: {message.text}')
     if message.chat.id in ADMINS:
         if message.text == '/zero':
-            open('static/data/players.json', 'w', encoding='utf-8').write(json.dumps({}))
+            open('static/data/players.json', 'w', encoding='utf-8').write(
+                json.dumps({})
+            )
             questions_info = json.load(
                 open('static/data/questions.json', 'r', encoding='utf-8'),
             )
             questions_info['current'] = '1'
-            open('static/data/questions.json', 'w', encoding='utf-8').write(json.dumps(questions_info))
+            open('static/data/questions.json', 'w', encoding='utf-8').write(
+                json.dumps(questions_info)
+            )
             await message.answer('Done')
         if message.text == '/zero_question':
             questions_info = json.load(
                 open('static/data/questions.json', 'r', encoding='utf-8'),
             )
             questions_info['current'] = '1'
-            open('static/data/questions.json', 'w', encoding='utf-8').write(json.dumps(questions_info))
+            open('static/data/questions.json', 'w', encoding='utf-8').write(
+                json.dumps(questions_info)
+            )
             await message.answer('Done')
     else:
         try:
@@ -125,21 +131,27 @@ async def answers_handler(message: types.Message) -> None:
                             == answer
                         ):
                             data[id]['score'] += 1000
-                        open('static/data/players.json', 'w', encoding='utf-8').write(
+                        open(
+                            'static/data/players.json', 'w', encoding='utf-8'
+                        ).write(
                             json.dumps(data),
                         )
                         await message.answer(
                             f'Ответ {hbold(message.text)} был принят!',
                         )
                     else:
-                        await message.answer('Зевс и с первого раза всё понял.')
+                        await message.answer(
+                            'Зевс и с первого раза всё понял.'
+                        )
                 else:
                     await message.answer(
                         'Такого варианта ответа нет((\n'
                         'Выбери что то другое из предложенного',
                     )
             else:
-                await message.answer('Вы не зарегестрировались в системе!\nИспользуйте команду /start')
+                await message.answer(
+                    'Вы не зарегестрировались в системе!\nИспользуйте команду /start'
+                )
         except TypeError or AttributeError:
             await message.answer('Зевс тобой не доволен!!!')
 

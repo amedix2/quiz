@@ -28,7 +28,7 @@
             }
 
             const startTime = Date.now();
-            const endTime = startTime + 10000;
+            const endTime = startTime + 20000;
 
             const timer = document.getElementById('timer');
 
@@ -38,12 +38,12 @@
                 timer.textContent = `${seconds.toString().padStart(2, '0')}`;
                 if (remainingTime <= 0) {
                     clearInterval(interval);
-                    window.location.href = '/results'                    
+                                        
                 }
             }
 
             const interval = setInterval(updateTimer, 1000);
-            timer.textContent = '30';
+            timer.textContent = '20';
         </script>
     {% endif %}
 </body>
