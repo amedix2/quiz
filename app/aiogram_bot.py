@@ -34,7 +34,7 @@ async def command_start_handler(message: Message) -> None:
             and str(message.chat.username) != ''
         ):
             data[id] = {
-                'nickname': message.chat.username,
+                'nickname': message.chat.username[:15],
                 'score': 0,
                 'given': False,
             }
@@ -59,7 +59,7 @@ async def command_start_handler(message: Message) -> None:
 @dp.message(F.text, Command('set'))
 async def command_set_handler(message: Message) -> None:
     logging.info(f'set name by {message.chat.id}')
-    name = message.text[5:].strip()
+    name = message.text[5:20].strip()
     logging.error(f'{message.chat.id}: {message.text}')
     id = 'id' + str(message.chat.id)
     data = json.load(open('static/data/players.json', 'r', encoding='utf-8'))
@@ -90,14 +90,14 @@ async def answers_handler(message: types.Message) -> None:
     if message.chat.id in ADMINS:
         if message.text == '/zero':
             open('static/data/players.json', 'w', encoding='utf-8').write(
-                json.dumps({})
+                json.dumps({}),
             )
             questions_info = json.load(
                 open('static/data/questions.json', 'r', encoding='utf-8'),
             )
             questions_info['current'] = '1'
             open('static/data/questions.json', 'w', encoding='utf-8').write(
-                json.dumps(questions_info)
+                json.dumps(questions_info),
             )
             await message.answer('Done')
         if message.text == '/zero_question':
@@ -106,7 +106,7 @@ async def answers_handler(message: types.Message) -> None:
             )
             questions_info['current'] = '1'
             open('static/data/questions.json', 'w', encoding='utf-8').write(
-                json.dumps(questions_info)
+                json.dumps(questions_info),
             )
             await message.answer('Done')
     else:
@@ -132,7 +132,9 @@ async def answers_handler(message: types.Message) -> None:
                         ):
                             data[id]['score'] += 1000
                         open(
-                            'static/data/players.json', 'w', encoding='utf-8'
+                            'static/data/players.json',
+                            'w',
+                            encoding='utf-8',
                         ).write(
                             json.dumps(data),
                         )
@@ -141,7 +143,7 @@ async def answers_handler(message: types.Message) -> None:
                         )
                     else:
                         await message.answer(
-                            'Зевс и с первого раза всё понял.'
+                            'Зевс и с первого раза всё понял.',
                         )
                 else:
                     await message.answer(
@@ -150,7 +152,8 @@ async def answers_handler(message: types.Message) -> None:
                     )
             else:
                 await message.answer(
-                    'Вы не зарегестрировались в системе!\nИспользуйте команду /start'
+                    'Вы не зарегестрировались в системе!\n'
+                    'Используйте команду /start',
                 )
         except TypeError or AttributeError:
             await message.answer('Зевс тобой не доволен!!!')

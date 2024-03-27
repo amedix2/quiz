@@ -1,8 +1,18 @@
 import json
 import logging
+import os
 import sys
+import requests
+import time
 
 from flask import Flask, jsonify, render_template
+
+from dotenv import load_dotenv
+
+
+load_dotenv()
+TOKEN = os.getenv('AIOGRAM_TOKEN')
+URL = f'https://api.telegram.org/bot{TOKEN}/sendmessage'
 
 __all__ = ['app']
 
@@ -22,14 +32,24 @@ def update_data():
 
 @app.route('/question/<int:num>')
 def questions(num):
-    logging.info(str(num))
-    data = json.load(open('static/data/questions.json', 'r', encoding='utf-8'))
+    data = json.load(open('static/data/players.json', 'r', encoding='utf-8'))
+    questions = json.load(open('static/data/questions.json', 'r', encoding='utf-8'))
     try:
-        question_data = data[str(num)]
-        data['current'] = str(num)
+        question_data = questions[str(num)]
+        questions['current'] = str(num)
         open('static/data/questions.json', 'w', encoding='utf-8').write(
-            json.dumps(data),
+            json.dumps(questions),
         )
+        start = time.time()
+        reply_markup = {"keyboard": [['a', 'b'], ['c', 'd']], "resize_keyboard": False}
+        for id in data.keys():
+            question = question_data['question']
+            answers = question_data['answers']
+            text = f'{num}: {question}\na.{answers[0]}\nb.{answers[1]}\nc.{answers[2]}\nd.{answers[3]}'
+            data = {'chat_id': str(id[2:]), 'text': text, 'reply_markup': json.dumps(reply_markup)}
+            r = requests.post(URL, data=data)
+            logging.info(f'{id[2:]}: {r.status_code}')
+        logging.error(f'it took {time.time() - start}')
         return render_template(
             'question.html',
             num=num,
