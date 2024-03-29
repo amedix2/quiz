@@ -22,3 +22,6 @@ you may install black `pip3 install black` and check code by using `black --chec
 also you can use black to autorefractoring coed by `black -S --line-length 79 .`
 
 # RUNNING CODE
+
+`python3 flask_server.py`  
+`python3 aiogram_bot.py`
